@@ -393,8 +393,8 @@
 
 .yasw-donate .yasw-donate-form input.yasw-donate-input::placeholder,
 .yasw-donate .yasw-donate-form textarea.yasw-donate-input::placeholder {
-    color: var(--yasw-dark-blue);
-    opacity: 0.3;
+    color: #98a2b3;
+    opacity: 1;
 }
 
 .yasw-donate .yasw-donate-form input.yasw-donate-input:focus,
