@@ -673,8 +673,8 @@
     .yasw-donate .yasw-donate-form .yasw-donate-field-row--three input[type="text"].yasw-donate-input {
         flex: 1 1 100%;
         padding: 0 0 10px 0;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 20px;
+        line-height: 32px;
         height: auto;
         border: none;
         border-bottom: 1px solid var(--yasw-dark-blue);
