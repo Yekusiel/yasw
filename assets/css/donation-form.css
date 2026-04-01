@@ -1,0 +1,709 @@
+/* ==========================================================================
+   YASW Donations Form
+   Design tokens from Figma
+
+   Note: Uses .yasw-donate prefix on all overrides to beat the Hello Elementor
+   theme's reset.css which applies full borders to all inputs globally.
+   ========================================================================== */
+
+:root {
+    --yasw-dark-blue: #15283D;
+    --yasw-slate: #4D6A7D;
+    --yasw-slate-40: rgba(77, 106, 125, 0.4);
+    --yasw-dark-navy: #0C1C2E;
+    --yasw-cream: #FEFCF5;
+    --yasw-offwhite: #FEFEFC;
+    --yasw-gray: #667085;
+    --yasw-white: #FFFFFF;
+    --yasw-font-body: 'Inter', sans-serif;
+    --yasw-font-heading: 'Merriweather', serif;
+}
+
+/* Container */
+.yasw-donate {
+    max-width: 716px;
+    margin: 0;
+    padding: 0;
+    font-family: var(--yasw-font-body);
+    color: var(--yasw-dark-blue);
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.yasw-donate *,
+.yasw-donate *::before,
+.yasw-donate *::after {
+    box-sizing: border-box;
+}
+
+/* Title */
+.yasw-donate .yasw-donate-title {
+    font-family: var(--yasw-font-heading);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 60px;
+    color: var(--yasw-dark-blue);
+    margin: 0 0 40px 0;
+    padding: 0;
+}
+
+/* Sections */
+.yasw-donate .yasw-donate-section {
+    margin-bottom: 40px;
+}
+
+.yasw-donate .yasw-donate-section-title {
+    font-family: var(--yasw-font-heading);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 60px;
+    color: var(--yasw-dark-blue);
+    margin: 0 0 30px 0;
+    padding: 0;
+}
+
+/* Field Groups (Donation Type, Amount) */
+.yasw-donate .yasw-donate-field-group {
+    margin-bottom: 30px;
+}
+
+.yasw-donate .yasw-donate-label {
+    display: block;
+    font-family: var(--yasw-font-body);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--yasw-dark-blue);
+    margin-bottom: 6px;
+}
+
+/* Dropdown */
+.yasw-donate .yasw-donate-select-wrap {
+    max-width: 464px;
+}
+
+.yasw-donate .yasw-donate-select,
+.yasw-donate select.yasw-donate-select {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--yasw-dark-blue);
+    background-color: var(--yasw-white);
+    border: 1px solid var(--yasw-slate);
+    border-radius: 0;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%2315283D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 20px;
+    cursor: pointer;
+    height: auto;
+}
+
+.yasw-donate .yasw-donate-select option[disabled] {
+    color: var(--yasw-gray);
+}
+
+/* Amount Input */
+.yasw-donate .yasw-donate-amount-wrap {
+    max-width: 160px;
+}
+
+.yasw-donate input.yasw-donate-amount-input,
+.yasw-donate .yasw-donate-amount-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--yasw-dark-blue);
+    background: var(--yasw-white);
+    border: 1px solid var(--yasw-slate-40);
+    border-radius: 0;
+    min-width: 120px;
+    height: auto;
+}
+
+.yasw-donate .yasw-donate-amount-input::placeholder {
+    color: var(--yasw-dark-blue);
+}
+
+/* Checkbox */
+.yasw-donate .yasw-donate-checkbox-row {
+    margin-bottom: 40px;
+}
+
+.yasw-donate .yasw-donate-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--yasw-dark-blue);
+    cursor: pointer;
+}
+
+.yasw-donate .yasw-donate-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.yasw-donate .yasw-donate-checkbox-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: var(--yasw-white);
+    border: 1px solid var(--yasw-slate-40);
+    flex-shrink: 0;
+}
+
+.yasw-donate .yasw-donate-checkbox:checked + .yasw-donate-checkbox-custom {
+    background: var(--yasw-slate);
+    border-color: var(--yasw-slate);
+}
+
+.yasw-donate .yasw-donate-checkbox:checked + .yasw-donate-checkbox-custom::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Total */
+.yasw-donate .yasw-donate-total {
+    font-family: var(--yasw-font-heading);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 40px;
+    letter-spacing: 0.18px;
+    color: var(--yasw-dark-blue);
+}
+
+/* Divider */
+.yasw-donate .yasw-donate-divider {
+    border: none;
+    border-top: 2px solid var(--yasw-slate-40);
+    margin: 0 0 40px 0;
+}
+
+/* Schedule Section */
+.yasw-donate .yasw-donate-schedule-info {
+    font-family: var(--yasw-font-body);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--yasw-dark-blue);
+    margin: 0 0 20px 0;
+}
+
+/* Radio Buttons */
+.yasw-donate .yasw-donate-radio-group {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.yasw-donate .yasw-donate-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--yasw-dark-blue);
+    cursor: pointer;
+}
+
+.yasw-donate .yasw-donate-radio {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.yasw-donate .yasw-donate-radio-custom {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--yasw-slate);
+    background: var(--yasw-white);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.yasw-donate .yasw-donate-radio:checked + .yasw-donate-radio-custom {
+    border-color: var(--yasw-slate);
+}
+
+.yasw-donate .yasw-donate-radio:checked + .yasw-donate-radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--yasw-slate);
+}
+
+/* Installments Row */
+.yasw-donate .yasw-donate-schedule-options {
+    margin-top: 20px;
+}
+
+.yasw-donate .yasw-donate-installments-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.yasw-donate .yasw-donate-label-inline {
+    font-family: var(--yasw-font-body);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--yasw-dark-blue);
+    white-space: nowrap;
+}
+
+.yasw-donate input.yasw-donate-months-input,
+.yasw-donate .yasw-donate-months-input {
+    width: 104px;
+    padding: 12px 16px;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--yasw-dark-blue);
+    background: var(--yasw-white);
+    border: 1px solid var(--yasw-slate-40);
+    border-radius: 0;
+    height: auto;
+}
+
+.yasw-donate .yasw-donate-months-input::placeholder {
+    opacity: 0.3;
+    color: var(--yasw-dark-blue);
+}
+
+.yasw-donate .yasw-donate-monthly-display {
+    background: var(--yasw-cream);
+    padding: 20px 15px;
+    min-width: 229px;
+}
+
+.yasw-donate .yasw-donate-monthly-label {
+    font-family: var(--yasw-font-heading);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 32px;
+    color: var(--yasw-dark-blue);
+}
+
+.yasw-donate .yasw-donate-monthly-amount {
+    font-family: var(--yasw-font-heading);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 32px;
+    color: var(--yasw-dark-blue);
+    margin-left: 8px;
+}
+
+/* Repeated Row */
+.yasw-donate .yasw-donate-repeated-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.yasw-donate .yasw-donate-frequency-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.yasw-donate button.yasw-donate-freq-btn,
+.yasw-donate .yasw-donate-freq-btn {
+    padding: 10px 40px;
+    font-family: var(--yasw-font-body);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    border: 1px solid var(--yasw-slate);
+    border-radius: 1px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--yasw-slate);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.yasw-donate button.yasw-donate-freq-btn.active,
+.yasw-donate .yasw-donate-freq-btn.active {
+    background: var(--yasw-slate);
+    color: var(--yasw-cream);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Form Inputs — bottom border style
+   High specificity to override Hello Elementor theme reset.css
+   ========================================================================== */
+
+.yasw-donate .yasw-donate-form input[type="text"].yasw-donate-input,
+.yasw-donate .yasw-donate-form input[type="email"].yasw-donate-input,
+.yasw-donate .yasw-donate-form input[type="tel"].yasw-donate-input,
+.yasw-donate .yasw-donate-form input[type="number"].yasw-donate-input,
+.yasw-donate .yasw-donate-form textarea.yasw-donate-input {
+    width: 100%;
+    padding: 0 0 20px 0;
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    color: var(--yasw-dark-blue);
+    background: transparent;
+    border: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid var(--yasw-dark-blue);
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.2s;
+    height: auto;
+    margin: 0;
+}
+
+.yasw-donate .yasw-donate-form input.yasw-donate-input::placeholder,
+.yasw-donate .yasw-donate-form textarea.yasw-donate-input::placeholder {
+    color: var(--yasw-dark-blue);
+    opacity: 0.3;
+}
+
+.yasw-donate .yasw-donate-form input.yasw-donate-input:focus,
+.yasw-donate .yasw-donate-form textarea.yasw-donate-input:focus {
+    border-color: transparent;
+    border-bottom-color: var(--yasw-slate);
+    outline: none;
+    box-shadow: none;
+}
+
+.yasw-donate .yasw-donate-form textarea.yasw-donate-textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* Field Rows */
+.yasw-donate .yasw-donate-field-row {
+    margin-bottom: 40px;
+}
+
+.yasw-donate .yasw-donate-field-row:last-child {
+    margin-bottom: 0;
+}
+
+.yasw-donate .yasw-donate-field-row--split {
+    display: flex;
+    gap: 48px;
+}
+
+.yasw-donate .yasw-donate-input--phone {
+    max-width: 414px;
+    flex: 1 1 414px;
+}
+
+.yasw-donate .yasw-donate-input--zip {
+    max-width: 252px;
+    flex: 1 1 252px;
+}
+
+.yasw-donate .yasw-donate-input--short {
+    max-width: 178px;
+}
+
+.yasw-donate .yasw-donate-field-row--three {
+    display: flex;
+    gap: 40px;
+}
+
+.yasw-donate .yasw-donate-field-row--three .yasw-donate-input:nth-child(1) {
+    flex: 0 1 178px;
+}
+
+.yasw-donate .yasw-donate-field-row--three .yasw-donate-input:nth-child(2) {
+    flex: 0 1 218px;
+}
+
+.yasw-donate .yasw-donate-field-row--three .yasw-donate-input:nth-child(3) {
+    flex: 0 1 178px;
+}
+
+/* Personal Fields spacing */
+.yasw-donate .yasw-donate-personal-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   Sola iFields iframes
+   Styled to match .yasw-donate-input exactly:
+   padding: 0 0 20px 0, font-size: 20px, line-height: 32px,
+   border-bottom: 1px solid #15283D, background: transparent
+   ========================================================================== */
+
+.yasw-donate .yasw-donate-iframe {
+    width: 100%;
+    /* 32px line-height + 20px bottom padding = 52px total */
+    height: 52px;
+    border: none;
+    border-bottom: 1px solid var(--yasw-dark-blue);
+    border-radius: 0;
+    display: block;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.2s;
+}
+
+.yasw-donate .yasw-donate-iframe:focus,
+.yasw-donate .yasw-donate-iframe:focus-within {
+    border-bottom-color: var(--yasw-slate);
+}
+
+.yasw-donate .yasw-donate-iframe--cvv {
+    width: 100%;
+    height: 52px;
+}
+
+.yasw-donate .yasw-donate-cvv-wrap {
+    flex: 0 1 178px;
+}
+
+.yasw-donate .yasw-donate-ifields-error {
+    display: block;
+    color: #C62828;
+    font-family: var(--yasw-font-body);
+    font-size: 14px;
+    line-height: 1.4;
+    min-height: 20px;
+    margin-top: 8px;
+}
+
+/* ==========================================================================
+   Payment Methods
+   ========================================================================== */
+
+.yasw-donate .yasw-donate-payment-methods {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.yasw-donate button.yasw-donate-method-btn,
+.yasw-donate .yasw-donate-method-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 20px;
+    height: 68px;
+    min-width: 160px;
+    border: 1px solid var(--yasw-slate-40);
+    border-radius: 2px;
+    background: var(--yasw-offwhite);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-family: var(--yasw-font-body);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--yasw-dark-navy);
+}
+
+.yasw-donate button.yasw-donate-method-btn.active,
+.yasw-donate .yasw-donate-method-btn.active {
+    background: var(--yasw-slate);
+    color: var(--yasw-white);
+}
+
+/* Payment method icons — inline SVGs and images */
+.yasw-donate .yasw-donate-method-icon {
+    width: 30px;
+    height: 24px;
+    flex-shrink: 0;
+    object-fit: contain;
+    display: block;
+}
+
+.yasw-donate .yasw-donate-method-btn svg.yasw-donate-method-icon {
+    width: 30px;
+    height: 30px;
+    overflow: visible;
+}
+
+.yasw-donate .yasw-donate-method-btn img.yasw-donate-method-icon {
+    max-width: 60px;
+    max-height: 35px;
+    width: auto;
+    height: auto;
+}
+
+/* Payment Fields Sections */
+.yasw-donate .yasw-donate-payment-fields {
+    margin-bottom: 40px;
+}
+
+.yasw-donate .yasw-donate-cc-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Submit Row */
+.yasw-donate .yasw-donate-submit-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 48px;
+}
+
+.yasw-donate button.yasw-donate-submit-btn,
+.yasw-donate .yasw-donate-submit-btn {
+    padding: 16px 40px;
+    font-family: var(--yasw-font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--yasw-white);
+    background: var(--yasw-slate);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.yasw-donate button.yasw-donate-submit-btn:hover {
+    opacity: 0.9;
+}
+
+.yasw-donate button.yasw-donate-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Messages */
+.yasw-donate .yasw-donate-message {
+    margin-top: 20px;
+    padding: 16px 20px;
+    font-family: var(--yasw-font-body);
+    font-size: 16px;
+    line-height: 1.4;
+    border-radius: 2px;
+}
+
+.yasw-donate .yasw-donate-message--success {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+}
+
+.yasw-donate .yasw-donate-message--error {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .yasw-donate {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+
+    .yasw-donate .yasw-donate-title {
+        font-size: 24px;
+        line-height: 40px;
+    }
+
+    .yasw-donate .yasw-donate-select-wrap {
+        max-width: 100%;
+    }
+
+    .yasw-donate .yasw-donate-amount-wrap {
+        max-width: 100%;
+    }
+
+    .yasw-donate .yasw-donate-field-row--split {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .yasw-donate .yasw-donate-input--phone,
+    .yasw-donate .yasw-donate-input--zip {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .yasw-donate .yasw-donate-field-row--three {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .yasw-donate .yasw-donate-field-row--three .yasw-donate-input {
+        flex: 1 1 100%;
+    }
+
+    .yasw-donate .yasw-donate-payment-methods {
+        flex-wrap: wrap;
+    }
+
+    .yasw-donate .yasw-donate-method-btn {
+        min-width: calc(50% - 6px);
+        flex: 1 1 calc(50% - 6px);
+    }
+
+    .yasw-donate .yasw-donate-radio-group {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .yasw-donate .yasw-donate-installments-row {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .yasw-donate .yasw-donate-repeated-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .yasw-donate .yasw-donate-submit-row {
+        justify-content: center;
+    }
+
+    .yasw-donate .yasw-donate-submit-btn {
+        width: 100%;
+    }
+}
