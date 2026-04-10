@@ -36,6 +36,7 @@ class YASW_Donation_DB {
             confirmation_number VARCHAR(255) DEFAULT NULL,
             masked_card VARCHAR(50) DEFAULT NULL,
             gateway_response TEXT,
+            ip_address VARCHAR(45) DEFAULT NULL,
             sandbox TINYINT(1) NOT NULL DEFAULT 0,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
@@ -60,14 +61,14 @@ class YASW_Donation_DB {
         dbDelta( $sql_donations );
         dbDelta( $sql_errors );
 
-        update_option( 'yasw_db_version', '1.0.0' );
+        update_option( 'yasw_db_version', '1.1.0' );
     }
 
     /**
      * Ensure tables exist (called on admin_init).
      */
     public static function maybe_create_tables() {
-        if ( get_option( 'yasw_db_version' ) !== '1.0.0' ) {
+        if ( get_option( 'yasw_db_version' ) !== '1.1.0' ) {
             self::create_tables();
         }
     }
@@ -101,12 +102,27 @@ class YASW_Donation_DB {
                 'zip'                => sanitize_text_field( $data['zip'] ?? '' ),
                 'message'            => sanitize_textarea_field( $data['message'] ?? '' ),
                 'status'             => 'pending',
+                'ip_address'         => self::get_client_ip(),
                 'sandbox'            => $sandbox,
             ),
-            array( '%s', '%s', '%f', '%d', '%f', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d' )
+            array( '%s', '%s', '%f', '%d', '%f', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d' )
         );
 
         return $wpdb->insert_id;
+    }
+
+    /**
+     * Get the client's IP address.
+     */
+    public static function get_client_ip() {
+        if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+            $ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+            return trim( $ips[0] );
+        }
+        if ( ! empty( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+            return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
+        }
+        return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1' ) );
     }
 
     /**
