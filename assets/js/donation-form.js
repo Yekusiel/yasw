@@ -93,9 +93,14 @@
             '-webkit-appearance': 'none'
         };
 
+        var placeholderStyle = {
+            'color': '#98a2b3',
+            'opacity': '1'
+        };
+
         if (typeof setIfieldStyle === 'function') {
-            setIfieldStyle('card-number', iframeStyle);
-            setIfieldStyle('cvv', iframeStyle);
+            setIfieldStyle('card-number', iframeStyle, placeholderStyle);
+            setIfieldStyle('cvv', iframeStyle, placeholderStyle);
         }
 
         // Auto-format card number with spaces
