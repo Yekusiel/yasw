@@ -68,6 +68,20 @@ class YASW_Sola_Processor {
     }
 
     /**
+     * Get the client's IP address.
+     */
+    private function get_client_ip() {
+        if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+            $ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+            return trim( $ips[0] );
+        }
+        if ( ! empty( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+            return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
+        }
+        return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1' ) );
+    }
+
+    /**
      * Process a credit card donation via Sola gateway.
      */
     public function process( $data ) {
@@ -130,6 +144,7 @@ class YASW_Sola_Processor {
             'xBillZip'         => $fields['zip'],
             'xBillPhone'       => $fields['phone'],
             'xEmail'           => $fields['email'],
+            'xIP'              => $this->get_client_ip(),
             'xInvoice'         => 'YASW-' . time(),
             'xDescription'     => 'Donation: ' . $donation_type,
             'xAllowDuplicate'  => 'TRUE',
@@ -163,6 +178,7 @@ class YASW_Sola_Processor {
             'xBillStreet'      => $fields['street'],
             'xBillZip'         => $fields['zip'],
             'xEmail'           => $fields['email'],
+            'xIP'              => $this->get_client_ip(),
         );
 
         $save_result = $this->gateway_request( $save_request );
