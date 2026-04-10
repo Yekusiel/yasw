@@ -686,6 +686,8 @@ class YASW_Admin_Settings {
                 <div class="yasw-placeholder-item"><code>{donation_date}</code> <span>Date of donation</span></div>
                 <div class="yasw-placeholder-item"><code>{donation_message}</code> <span>Donor's message</span></div>
                 <div class="yasw-placeholder-item"><code>{admin_email}</code> <span>WordPress admin email</span></div>
+                <div class="yasw-placeholder-item"><code>{installment_amount}</code> <span>Per-payment amount (charged today)</span></div>
+                <div class="yasw-placeholder-item"><code>{installment_months}</code> <span>Number of installment payments</span></div>
                 <div class="yasw-placeholder-item"><code>{all_fields}</code> <span>Full summary of all donation details</span></div>
             </div>
         </div>
