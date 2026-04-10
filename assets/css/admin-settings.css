@@ -16,8 +16,8 @@
 }
 
 .yasw-sandbox-toggle.yasw-sandbox-inactive {
-    background: #d4edda;
-    border: 1px solid #28a745;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
 }
 
 .yasw-toggle-label {
@@ -46,7 +46,7 @@
 .yasw-toggle-slider {
     position: absolute;
     inset: 0;
-    background: #28a745;
+    background: #aaa;
     border-radius: 26px;
     transition: background-color 0.3s;
     cursor: pointer;
