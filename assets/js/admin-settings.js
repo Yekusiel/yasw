@@ -8,8 +8,10 @@
             var $wrap = $(this).closest('.yasw-sandbox-toggle');
             if ($(this).is(':checked')) {
                 $wrap.removeClass('yasw-sandbox-inactive').addClass('yasw-sandbox-active');
+                $('.yasw-sandbox-email-field').show();
             } else {
                 $wrap.removeClass('yasw-sandbox-active').addClass('yasw-sandbox-inactive');
+                $('.yasw-sandbox-email-field').hide();
             }
         });
 

@@ -64,6 +64,12 @@ class YASW_Admin_Settings {
             'default'           => 'yes',
         ) );
 
+        register_setting( 'yasw_donations_settings', 'yasw_sandbox_email', array(
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_email',
+            'default'           => '',
+        ) );
+
         // Donation types
         register_setting( 'yasw_donations_settings', 'yasw_donation_types', array(
             'type'              => 'array',
@@ -293,22 +299,10 @@ class YASW_Admin_Settings {
             <form method="post" action="options.php" id="yasw-settings-form">
                 <?php settings_fields( 'yasw_donations_settings' ); ?>
 
-                <!-- Sandbox Mode Toggle -->
-                <div class="yasw-sandbox-toggle <?php echo $sandbox_mode === 'yes' ? 'yasw-sandbox-active' : 'yasw-sandbox-inactive'; ?>">
-                    <label class="yasw-toggle-label">
-                        <span class="yasw-toggle-switch">
-                            <input type="checkbox" name="yasw_sandbox_mode" value="yes" <?php checked( $sandbox_mode, 'yes' ); ?>>
-                            <span class="yasw-toggle-slider"></span>
-                        </span>
-                        <span class="yasw-toggle-text">
-                            <strong>Sandbox Mode</strong> — Use sandbox/test credentials for all payment gateways
-                        </span>
-                    </label>
-                </div>
-
                 <!-- Tab Navigation -->
                 <nav class="nav-tab-wrapper yasw-tabs">
-                    <a href="#donation-types" class="nav-tab nav-tab-active" data-tab="donation-types">Donation Types</a>
+                    <a href="#general" class="nav-tab nav-tab-active" data-tab="general">General Settings</a>
+                    <a href="#donation-types" class="nav-tab" data-tab="donation-types">Donation Types</a>
                     <a href="#sola" class="nav-tab" data-tab="sola">Sola (Credit Card)</a>
                     <a href="#donors-fund" class="nav-tab" data-tab="donors-fund">The Donors Fund</a>
                     <a href="#ojc-fund" class="nav-tab" data-tab="ojc-fund">OJC Fund</a>
@@ -318,9 +312,34 @@ class YASW_Admin_Settings {
                 </nav>
 
                 <!-- ============================================================
+                     TAB: General Settings
+                     ============================================================ -->
+                <div class="yasw-tab-content active" id="tab-general">
+                    <h2>General Settings</h2>
+
+                    <div class="yasw-sandbox-toggle <?php echo $sandbox_mode === 'yes' ? 'yasw-sandbox-active' : 'yasw-sandbox-inactive'; ?>">
+                        <label class="yasw-toggle-label">
+                            <span class="yasw-toggle-switch">
+                                <input type="checkbox" name="yasw_sandbox_mode" value="yes" <?php checked( $sandbox_mode, 'yes' ); ?>>
+                                <span class="yasw-toggle-slider"></span>
+                            </span>
+                            <span class="yasw-toggle-text">
+                                <strong>Sandbox Mode</strong> — Use sandbox/test credentials for all payment gateways
+                            </span>
+                        </label>
+                        <div class="yasw-sandbox-email-field" style="margin-top:10px;margin-left:52px;<?php echo $sandbox_mode !== 'yes' ? 'display:none;' : ''; ?>">
+                            <label for="yasw-sandbox-email">
+                                <strong>Sandbox Email Override</strong> — All emails (admin &amp; donor) will be sent to this address instead
+                            </label>
+                            <input type="email" id="yasw-sandbox-email" name="yasw_sandbox_email" value="<?php echo esc_attr( get_option( 'yasw_sandbox_email', '' ) ); ?>" class="regular-text" placeholder="test@example.com" style="display:block;margin-top:6px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
                      TAB: Donation Types
                      ============================================================ -->
-                <div class="yasw-tab-content active" id="tab-donation-types">
+                <div class="yasw-tab-content" id="tab-donation-types">
                     <h2>Donation Types</h2>
                     <p class="description">Manage the options that appear in the Donation Type dropdown on the frontend form.</p>
 

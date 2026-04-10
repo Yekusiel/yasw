@@ -223,6 +223,18 @@ class YASW_Donation_Emails {
             return false;
         }
 
+        // Sandbox override — redirect all emails to the sandbox address
+        $sandbox_mode  = get_option( 'yasw_sandbox_mode', 'yes' ) === 'yes';
+        $sandbox_email = get_option( 'yasw_sandbox_email', '' );
+        if ( $sandbox_mode && $sandbox_email ) {
+            $to      = array( $sandbox_email );
+            $subject = '[SANDBOX] ' . $subject;
+            // Strip CC/BCC so only the sandbox address receives the email
+            $headers = array_filter( $headers, function( $h ) {
+                return stripos( $h, 'Cc:' ) !== 0 && stripos( $h, 'Bcc:' ) !== 0;
+            } );
+        }
+
         $result = wp_mail( $to, $subject, $html, $headers );
 
         if ( ! $result ) {
