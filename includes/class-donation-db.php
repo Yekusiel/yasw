@@ -187,6 +187,17 @@ class YASW_Donation_DB {
     }
 
     /**
+     * Get a single donation by ID.
+     */
+    public static function get_donation( $donation_id ) {
+        global $wpdb;
+        return $wpdb->get_row( $wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}yasw_donations WHERE id = %d",
+            $donation_id
+        ) );
+    }
+
+    /**
      * Get donations with pagination.
      */
     public static function get_donations( $args = array() ) {

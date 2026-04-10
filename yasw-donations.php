@@ -23,6 +23,7 @@ require_once YASW_DONATIONS_PATH . 'includes/class-donorsfund-processor.php';
 require_once YASW_DONATIONS_PATH . 'includes/class-ojc-processor.php';
 require_once YASW_DONATIONS_PATH . 'includes/class-pledger-processor.php';
 require_once YASW_DONATIONS_PATH . 'includes/class-donation-db.php';
+require_once YASW_DONATIONS_PATH . 'includes/class-donation-emails.php';
 
 class YASW_Donations {
 
@@ -174,6 +175,13 @@ class YASW_Donations {
                 'masked_card'         => $result['maskedCard'] ?? null,
                 'gateway_response'    => $result,
             ) );
+
+            // Send email notifications
+            $donation = YASW_Donation_DB::get_donation( $donation_id );
+            if ( $donation ) {
+                YASW_Donation_Emails::send_all( $donation_id, $donation );
+            }
+
             wp_send_json_success( $result );
         } elseif ( $result ) {
             $status = 'declined';
