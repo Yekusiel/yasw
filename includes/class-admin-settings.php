@@ -860,6 +860,11 @@ class YASW_Admin_Settings {
         if ( $sandbox_filter !== '' ) {
             $where[]  = 'sandbox = %d';
             $params[] = intval( $sandbox_filter );
+        } else {
+            // Default: show sandbox transactions when sandbox mode is on, real ones when off
+            $is_sandbox = get_option( 'yasw_sandbox_mode', 'yes' ) === 'yes' ? 1 : 0;
+            $where[]    = 'sandbox = %d';
+            $params[]   = $is_sandbox;
         }
 
         $date_from = sanitize_text_field( $_POST['date_from'] ?? '' );
