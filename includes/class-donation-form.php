@@ -104,15 +104,6 @@ class YASW_Donation_Form {
                     </div>
                 </div>
 
-                <!-- OJC Weekly Notice -->
-                <div id="yasw-ojc-weekly-notice" class="yasw-donate-ojc-weekly-notice" style="display:none;">
-                    <p class="yasw-donate-ojc-weekly-text">
-                        OJC Fund does not support weekly payments.
-                        Would you like to switch to <strong>monthly</strong> payments of <strong><span id="yasw-ojc-monthly-equivalent"></span></strong> instead?
-                    </p>
-                    <button type="button" id="yasw-ojc-switch-monthly" class="yasw-donate-ojc-switch-btn">Switch to Monthly</button>
-                </div>
-
                 <!-- Personal Details -->
                 <div class="yasw-donate-section">
                     <h3 class="yasw-donate-section-title">Personal Details</h3>
@@ -206,6 +197,13 @@ class YASW_Donation_Form {
 
                 <!-- OJC Fund Fields -->
                 <div class="yasw-donate-payment-fields" id="yasw-fields-ojc_fund" style="display:none;">
+                    <div id="yasw-ojc-weekly-notice" class="yasw-donate-ojc-weekly-notice" style="display:none;">
+                        <p class="yasw-donate-ojc-weekly-text">
+                            OJC Fund does not support weekly payments.
+                            Would you like to switch to <strong>monthly</strong> payments of <strong><span id="yasw-ojc-monthly-equivalent"></span></strong> instead?
+                        </p>
+                        <button type="button" id="yasw-ojc-switch-monthly" class="yasw-donate-ojc-switch-btn">Switch to Monthly</button>
+                    </div>
                     <h3 class="yasw-donate-section-title">OJC Fund Details</h3>
                     <div class="yasw-donate-cc-fields">
                         <div class="yasw-donate-field-row">
