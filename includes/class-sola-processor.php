@@ -189,12 +189,12 @@ class YASW_Sola_Processor {
         if ( $is_installments && $fields['months'] > 1 ) {
             $per_payment    = round( $total / $fields['months'], 2 );
             $total_payments = $fields['months'];
-            $interval_type  = 'Month';
+            $interval_type  = 'month';
         } else {
             // Repeated/ongoing
             $per_payment    = $total;
             $total_payments = 0; // Ongoing
-            $interval_type  = 'monthly' === $fields['frequency'] ? 'Month' : 'Week';
+            $interval_type  = 'monthly' === $fields['frequency'] ? 'month' : 'week';
         }
 
         $schedule = array(
