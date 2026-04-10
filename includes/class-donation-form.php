@@ -48,7 +48,7 @@ class YASW_Donation_Form {
                     </div>
 
                     <div class="yasw-donate-total">
-                        Total: <span id="yasw-total-amount"></span>
+                        Total: <span id="yasw-total-amount">$0.00</span>
                     </div>
                 </div>
 
