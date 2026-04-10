@@ -93,12 +93,9 @@
             '-webkit-appearance': 'none'
         };
 
-        // Start with placeholder color — will switch to real color on input
-        var placeholderIframeStyle = $.extend({}, iframeStyle, { 'color': '#98a2b3' });
-
         if (typeof setIfieldStyle === 'function') {
-            setIfieldStyle('card-number', placeholderIframeStyle);
-            setIfieldStyle('cvv', placeholderIframeStyle);
+            setIfieldStyle('card-number', iframeStyle);
+            setIfieldStyle('cvv', iframeStyle);
         }
 
         // Auto-format card number with spaces
@@ -111,14 +108,6 @@
             addIfieldKeyPressCallback(function(data) {
                 var $cardFrame = $('iframe[data-ifields-id="card-number"]');
                 var $cvvFrame = $('iframe[data-ifields-id="cvv"]');
-
-                // Card number: toggle text color between placeholder and real
-                setIfieldStyle('card-number', { 'color': data.cardNumberFormattedLength > 0 ? '#15283D' : '#98a2b3' });
-
-                // CVV: toggle text color
-                if (data.lastIfieldChanged === 'cvv') {
-                    setIfieldStyle('cvv', { 'color': data.cvvLength > 0 ? '#15283D' : '#98a2b3' });
-                }
 
                 // Card number border
                 if (data.cardNumberFormattedLength <= 0) {
@@ -166,6 +155,11 @@
             }
             checkOjcWeekly();
             updateSubmitButton();
+        });
+
+        // Numeric-only fields — strip non-digits on input
+        $('input[name="cc_month"], input[name="cc_year"], input[name="df_card_number"], input[name="df_cvv"], input[name="ojc_card_number"], input[name="pl_card_number"]').on('input', function() {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
         });
 
         // Expiry field auto-format (MM/YY) for OJC and Pledger
