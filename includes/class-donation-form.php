@@ -140,16 +140,13 @@ class YASW_Donation_Form {
                             <span>Credit Card</span>
                         </button>
                         <button type="button" class="yasw-donate-method-btn" data-method="donors_fund">
-                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/donors-fund-logo.svg' ); ?>" alt="Donors Fund" class="yasw-donate-method-icon">
-                            <span>The Donors Fund</span>
+                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/donors-fund-logo.svg' ); ?>" alt="The Donors Fund" class="yasw-donate-method-icon">
                         </button>
                         <button type="button" class="yasw-donate-method-btn" data-method="ojc_fund">
-                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/ojc-icon.svg' ); ?>" alt="OJC" class="yasw-donate-method-icon">
-                            <span>OJC Fund</span>
+                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/ojc-icon.svg' ); ?>" alt="OJC Fund" class="yasw-donate-method-icon">
                         </button>
                         <button type="button" class="yasw-donate-method-btn" data-method="pledger">
                             <img src="<?php echo esc_url( $plugin_url . 'assets/images/pledger-logo.svg' ); ?>" alt="Pledger" class="yasw-donate-method-icon">
-                            <span>Pledger</span>
                         </button>
                     </div>
                     <input type="hidden" name="payment_method" id="yasw-payment-method" value="credit_card">
