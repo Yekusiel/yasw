@@ -101,6 +101,13 @@ class YASW_Donation_Form {
                             </div>
                             <input type="hidden" name="repeat_frequency" id="yasw-repeat-frequency" value="monthly">
                         </div>
+                        <div id="yasw-ojc-weekly-notice" class="yasw-donate-ojc-weekly-notice" style="display:none;">
+                            <p class="yasw-donate-ojc-weekly-text">
+                                OJC Fund does not support weekly payments.
+                                Would you like to switch to <strong>monthly</strong> payments of <strong><span id="yasw-ojc-monthly-equivalent"></span></strong> instead?
+                            </p>
+                            <button type="button" id="yasw-ojc-switch-monthly" class="yasw-donate-ojc-switch-btn">Switch to Monthly</button>
+                        </div>
                     </div>
                 </div>
 

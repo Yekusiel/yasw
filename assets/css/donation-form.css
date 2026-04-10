@@ -360,6 +360,44 @@
     font-weight: 600;
 }
 
+/* OJC Weekly Notice */
+.yasw-donate .yasw-donate-ojc-weekly-notice {
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: #FFF3E0;
+    border: 1px solid #FFB74D;
+    border-left: 4px solid #F57C00;
+    border-radius: 2px;
+}
+
+.yasw-donate .yasw-donate-ojc-weekly-text {
+    font-family: var(--yasw-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--yasw-dark-blue);
+    margin: 0 0 16px 0;
+}
+
+.yasw-donate button.yasw-donate-ojc-switch-btn,
+.yasw-donate .yasw-donate-ojc-switch-btn {
+    padding: 10px 28px;
+    font-family: var(--yasw-font-body);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--yasw-white);
+    background: #F57C00;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.yasw-donate button.yasw-donate-ojc-switch-btn:hover {
+    opacity: 0.9;
+}
+
 /* ==========================================================================
    Form Inputs — bottom border style
    High specificity to override Hello Elementor theme reset.css

@@ -127,8 +127,8 @@
         initIFields();
 
         // Amount input — update total on change
-        $('#yasw-amount').on('input', updateTotal);
-        $('#yasw-cover-fees').on('change', updateTotal);
+        $('#yasw-amount').on('input', function() { updateTotal(); checkOjcWeekly(); });
+        $('#yasw-cover-fees').on('change', function() { updateTotal(); checkOjcWeekly(); });
 
         // Payment schedule radios
         $('input[name="payment_schedule"]').on('change', function() {
@@ -139,6 +139,7 @@
             } else if (val === 'repeated') {
                 $('#yasw-repeated-options').show();
             }
+            checkOjcWeekly();
         });
 
         // Installment months
@@ -149,6 +150,7 @@
             $('.yasw-donate-freq-btn').removeClass('active');
             $(this).addClass('active');
             $('#yasw-repeat-frequency').val($(this).data('frequency'));
+            checkOjcWeekly();
         });
 
         // Payment method selection
@@ -163,6 +165,23 @@
             // Show/hide payment fields
             $('.yasw-donate-payment-fields').hide();
             $('#yasw-fields-' + method).show();
+            checkOjcWeekly();
+        });
+
+        // OJC weekly notice — switch to monthly
+        $('#yasw-ojc-switch-monthly').on('click', function() {
+            $('.yasw-donate-freq-btn').removeClass('active');
+            $('.yasw-donate-freq-btn[data-frequency="monthly"]').addClass('active');
+            $('#yasw-repeat-frequency').val('monthly');
+
+            // Quadruple the amount (4 weeks ≈ 1 month)
+            var amount = getAmount();
+            if (amount > 0) {
+                $('#yasw-amount').val((amount * 4).toFixed(2));
+                updateTotal();
+            }
+
+            checkOjcWeekly();
         });
 
         // Form submission
@@ -303,6 +322,22 @@
         $('html, body').animate({
             scrollTop: $el.offset().top - 100
         }, 300);
+    }
+
+    function checkOjcWeekly() {
+        var method = $('#yasw-payment-method').val();
+        var schedule = $('input[name="payment_schedule"]:checked').val();
+        var frequency = $('#yasw-repeat-frequency').val();
+        var $notice = $('#yasw-ojc-weekly-notice');
+
+        if (method === 'ojc_fund' && schedule === 'repeated' && frequency === 'weekly') {
+            var total = getTotal();
+            var monthlyAmount = total * 4;
+            $('#yasw-ojc-monthly-equivalent').text(monthlyAmount > 0 ? '$' + monthlyAmount.toFixed(2) + '/month' : '');
+            $notice.show();
+        } else {
+            $notice.hide();
+        }
     }
 
     function isValidEmail(email) {
