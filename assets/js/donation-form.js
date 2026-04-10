@@ -25,6 +25,12 @@
         }
 
         updateMonthlyPayment(total);
+        updateSubmitButton();
+    }
+
+    function updateSubmitButton() {
+        var total = getTotal();
+        $('.yasw-donate-submit-btn').text('Pay $' + total.toFixed(2));
     }
 
     function updateMonthlyPayment(total) {
@@ -238,7 +244,7 @@
     function submitWithIFields($form, $btn, $msg) {
         if (typeof getTokens !== 'function') {
             showMessage($msg, 'Payment system not loaded. Please refresh and try again.', 'error');
-            $btn.prop('disabled', false).text('Process Payment');
+            $btn.prop('disabled', false); updateSubmitButton();
             return;
         }
 
@@ -249,7 +255,7 @@
                 var cardToken = $('input[data-ifields-id="card-number-token"]').val();
                 if (!cardToken) {
                     showMessage($msg, 'Could not tokenize card data. Please check your card number.', 'error');
-                    $btn.prop('disabled', false).text('Process Payment');
+                    $btn.prop('disabled', false); updateSubmitButton();
                     return;
                 }
 
@@ -258,7 +264,7 @@
             function() {
                 // Error getting tokens
                 showMessage($msg, 'Could not process card information. Please check your details and try again.', 'error');
-                $btn.prop('disabled', false).text('Process Payment');
+                $btn.prop('disabled', false); updateSubmitButton();
             },
             30000 // 30 second timeout
         );
@@ -284,7 +290,7 @@
                 showMessage($msg, 'An error occurred. Please try again.', 'error');
             },
             complete: function() {
-                $btn.prop('disabled', false).text('Process Payment');
+                $btn.prop('disabled', false); updateSubmitButton();
             }
         });
     }
@@ -310,6 +316,9 @@
         // Clear hidden SUT tokens
         $('input[data-ifields-id="card-number-token"]').val('');
         $('input[data-ifields-id="cvv-token"]').val('');
+
+        // Reset submit button text
+        $('.yasw-donate-submit-btn').text('Pay $0.00');
     }
 
     function showMessage($el, text, type) {
