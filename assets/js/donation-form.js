@@ -93,14 +93,12 @@
             '-webkit-appearance': 'none'
         };
 
-        var placeholderStyle = {
-            'color': '#98a2b3',
-            'opacity': '1'
-        };
+        // Start with placeholder color — will switch to real color on input
+        var placeholderIframeStyle = $.extend({}, iframeStyle, { 'color': '#98a2b3' });
 
         if (typeof setIfieldStyle === 'function') {
-            setIfieldStyle('card-number', iframeStyle, placeholderStyle);
-            setIfieldStyle('cvv', iframeStyle, placeholderStyle);
+            setIfieldStyle('card-number', placeholderIframeStyle);
+            setIfieldStyle('cvv', placeholderIframeStyle);
         }
 
         // Auto-format card number with spaces
@@ -113,6 +111,14 @@
             addIfieldKeyPressCallback(function(data) {
                 var $cardFrame = $('iframe[data-ifields-id="card-number"]');
                 var $cvvFrame = $('iframe[data-ifields-id="cvv"]');
+
+                // Card number: toggle text color between placeholder and real
+                setIfieldStyle('card-number', { 'color': data.cardNumberFormattedLength > 0 ? '#15283D' : '#98a2b3' });
+
+                // CVV: toggle text color
+                if (data.lastIfieldChanged === 'cvv') {
+                    setIfieldStyle('cvv', { 'color': data.cvvLength > 0 ? '#15283D' : '#98a2b3' });
+                }
 
                 // Card number border
                 if (data.cardNumberFormattedLength <= 0) {
