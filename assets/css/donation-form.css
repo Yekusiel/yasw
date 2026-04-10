@@ -584,6 +584,10 @@
     color: var(--yasw-white);
 }
 
+.yasw-donate .yasw-donate-method-btn.active img.yasw-donate-method-icon {
+    filter: brightness(20);
+}
+
 /* Payment method icons — inline SVGs and images */
 .yasw-donate .yasw-donate-method-icon {
     width: 30px;

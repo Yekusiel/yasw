@@ -148,7 +148,7 @@ class YASW_Donation_Form {
                             <span>OJC Fund</span>
                         </button>
                         <button type="button" class="yasw-donate-method-btn" data-method="pledger">
-                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/pledger-logo.png' ); ?>" alt="Pledger" class="yasw-donate-method-icon">
+                            <img src="<?php echo esc_url( $plugin_url . 'assets/images/pledger-logo.svg' ); ?>" alt="Pledger" class="yasw-donate-method-icon">
                             <span>Pledger</span>
                         </button>
                     </div>
