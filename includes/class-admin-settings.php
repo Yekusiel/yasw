@@ -64,6 +64,12 @@ class YASW_Admin_Settings {
             'default'           => 'yes',
         ) );
 
+        register_setting( 'yasw_donations_settings', 'yasw_success_message', array(
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => '',
+        ) );
+
         register_setting( 'yasw_donations_settings', 'yasw_sandbox_email', array(
             'type'              => 'string',
             'sanitize_callback' => 'sanitize_email',
@@ -316,6 +322,16 @@ class YASW_Admin_Settings {
                      ============================================================ -->
                 <div class="yasw-tab-content active" id="tab-general">
                     <h2>General Settings</h2>
+
+                    <table class="form-table">
+                        <tr>
+                            <th><label for="yasw-success-message">Success Message</label></th>
+                            <td>
+                                <input type="text" id="yasw-success-message" name="yasw_success_message" value="<?php echo esc_attr( get_option( 'yasw_success_message', '' ) ); ?>" class="large-text" placeholder="Thank you for your generous donation of {amount}!">
+                                <p class="description">Displayed on screen after a successful donation. Use <code>{amount}</code> for the total charged. Leave blank for default.</p>
+                            </td>
+                        </tr>
+                    </table>
 
                     <div class="yasw-sandbox-toggle <?php echo $sandbox_mode === 'yes' ? 'yasw-sandbox-active' : 'yasw-sandbox-inactive'; ?>">
                         <label class="yasw-toggle-label">

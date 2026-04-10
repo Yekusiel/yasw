@@ -176,6 +176,15 @@ class YASW_Donations {
                 'gateway_response'    => $result,
             ) );
 
+            // Override success message if configured
+            $custom_message = get_option( 'yasw_success_message', '' );
+            if ( $custom_message ) {
+                $amount = floatval( $_POST['amount'] ?? 0 );
+                $cover_fees = ! empty( $_POST['cover_fees'] );
+                $total = $cover_fees ? round( $amount * 1.03, 2 ) : $amount;
+                $result['message'] = str_replace( '{amount}', '$' . number_format( $total, 2 ), $custom_message );
+            }
+
             // Send email notifications
             $donation = YASW_Donation_DB::get_donation( $donation_id );
             if ( $donation ) {
