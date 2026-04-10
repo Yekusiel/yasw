@@ -63,6 +63,11 @@ class YASW_Donation_Form {
 
                     <div class="yasw-donate-radio-group">
                         <label class="yasw-donate-radio-label">
+                            <input type="radio" name="payment_schedule" value="one_time" class="yasw-donate-radio" checked>
+                            <span class="yasw-donate-radio-custom"></span>
+                            <span>One time</span>
+                        </label>
+                        <label class="yasw-donate-radio-label">
                             <input type="radio" name="payment_schedule" value="installments" class="yasw-donate-radio">
                             <span class="yasw-donate-radio-custom"></span>
                             <span>Pay in installments</span>
