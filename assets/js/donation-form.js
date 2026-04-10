@@ -30,7 +30,15 @@
 
     function updateSubmitButton() {
         var total = getTotal();
-        $('.yasw-donate-submit-btn').text('Pay $' + total.toFixed(2));
+        var schedule = $('input[name="payment_schedule"]:checked').val();
+        var months = parseInt($('#yasw-months').val()) || 0;
+
+        if (schedule === 'installments' && months > 1 && total > 0) {
+            var monthly = total / months;
+            $('.yasw-donate-submit-btn').text('Pay $' + monthly.toFixed(2) + '/month');
+        } else {
+            $('.yasw-donate-submit-btn').text('Pay $' + total.toFixed(2));
+        }
     }
 
     function updateMonthlyPayment(total) {
@@ -146,6 +154,7 @@
                 $('#yasw-repeated-options').show();
             }
             checkOjcWeekly();
+            updateSubmitButton();
         });
 
         // Installment months
