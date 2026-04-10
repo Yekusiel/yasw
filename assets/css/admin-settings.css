@@ -2,6 +2,19 @@
    YASW Donations Admin
    ========================================================================== */
 
+/* Sandbox Banner */
+.yasw-sandbox-banner {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-left: 4px solid #e6a817;
+    color: #856404;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
 /* Sandbox Toggle Switch */
 .yasw-sandbox-toggle {
     padding: 14px 20px;

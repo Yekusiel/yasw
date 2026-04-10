@@ -724,6 +724,9 @@ class YASW_Admin_Settings {
         $donation_types = self::get_donation_types();
         ?>
         <div class="wrap yasw-admin-wrap">
+            <?php if ( get_option( 'yasw_sandbox_mode', 'yes' ) === 'yes' ) : ?>
+            <div class="yasw-sandbox-banner">Sandbox Mode — Showing test transactions only</div>
+            <?php endif; ?>
             <div class="yasw-donations-header">
                 <h1>Donations</h1>
                 <div class="yasw-donations-stats" id="yasw-donations-stats"></div>
