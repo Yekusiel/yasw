@@ -175,6 +175,32 @@ class YASW_Admin_Settings {
             'sanitize_callback' => 'sanitize_text_field',
             'default'           => '',
         ) );
+
+        // Email templates — register fields for both types
+        $email_types = array( 'admin_notification', 'donor_receipt' );
+        $text_fields = array( 'send_to', 'from_name', 'from_email', 'reply_to', 'cc', 'bcc', 'subject' );
+
+        foreach ( $email_types as $type ) {
+            register_setting( 'yasw_donations_settings', "yasw_email_{$type}_enabled", array(
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default'           => 'yes',
+            ) );
+
+            foreach ( $text_fields as $field ) {
+                register_setting( 'yasw_donations_settings', "yasw_email_{$type}_{$field}", array(
+                    'type'              => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'default'           => '',
+                ) );
+            }
+
+            register_setting( 'yasw_donations_settings', "yasw_email_{$type}_message", array(
+                'type'              => 'string',
+                'sanitize_callback' => 'wp_kses_post',
+                'default'           => '',
+            ) );
+        }
     }
 
     public function sanitize_donation_types( $input ) {
@@ -287,6 +313,8 @@ class YASW_Admin_Settings {
                     <a href="#donors-fund" class="nav-tab" data-tab="donors-fund">The Donors Fund</a>
                     <a href="#ojc-fund" class="nav-tab" data-tab="ojc-fund">OJC Fund</a>
                     <a href="#pledger" class="nav-tab" data-tab="pledger">Pledger</a>
+                    <a href="#email-admin" class="nav-tab" data-tab="email-admin">Admin Notification</a>
+                    <a href="#email-receipt" class="nav-tab" data-tab="email-receipt">Donor Receipt</a>
                 </nav>
 
                 <!-- ============================================================
@@ -509,8 +537,157 @@ class YASW_Admin_Settings {
                     </table>
                 </div>
 
+                <!-- ============================================================
+                     TAB: Admin Notification Email
+                     ============================================================ -->
+                <div class="yasw-tab-content" id="tab-email-admin">
+                    <?php $this->render_email_tab( 'admin_notification', 'Admin Notification Email' ); ?>
+                </div>
+
+                <!-- ============================================================
+                     TAB: Donor Receipt Email
+                     ============================================================ -->
+                <div class="yasw-tab-content" id="tab-email-receipt">
+                    <?php $this->render_email_tab( 'donor_receipt', 'Donor Receipt Email' ); ?>
+                </div>
+
                 <?php submit_button( 'Save Settings' ); ?>
             </form>
+        </div>
+        <?php
+    }
+
+    /**
+     * Render an email template settings tab.
+     */
+    private function render_email_tab( $type, $title ) {
+        $prefix  = "yasw_email_{$type}";
+        $enabled = get_option( "{$prefix}_enabled", 'yes' );
+
+        // Defaults per type
+        $defaults = array(
+            'admin_notification' => array(
+                'send_to'    => '{admin_email}',
+                'from_name'  => 'YASW Donations',
+                'from_email' => '{admin_email}',
+                'reply_to'   => '{donor_email}',
+                'cc'         => '',
+                'bcc'        => '',
+                'subject'    => 'New Donation from {donor_fname} {donor_lname}',
+            ),
+            'donor_receipt' => array(
+                'send_to'    => '{donor_email}',
+                'from_name'  => 'YASW Donations',
+                'from_email' => '{admin_email}',
+                'reply_to'   => '{admin_email}',
+                'cc'         => '',
+                'bcc'        => '',
+                'subject'    => 'Thank you for your donation, {donor_fname}!',
+            ),
+        );
+        $d = $defaults[ $type ] ?? $defaults['admin_notification'];
+        ?>
+        <h2><?php echo esc_html( $title ); ?></h2>
+
+        <!-- Enable toggle -->
+        <div class="yasw-email-toggle">
+            <label class="yasw-toggle-label">
+                <span class="yasw-toggle-switch">
+                    <input type="checkbox" name="<?php echo esc_attr( "{$prefix}_enabled" ); ?>" value="yes" <?php checked( $enabled, 'yes' ); ?>>
+                    <span class="yasw-toggle-slider"></span>
+                </span>
+                <span class="yasw-toggle-text"><strong>Enable this email</strong></span>
+            </label>
+        </div>
+
+        <table class="form-table">
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_send_to" ); ?>">Send To</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_send_to" ); ?>" name="<?php echo esc_attr( "{$prefix}_send_to" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_send_to", $d['send_to'] ) ); ?>" class="large-text">
+                    <p class="description">Comma-separated email addresses. Use <code>{donor_email}</code> or <code>{admin_email}</code>.</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_from_name" ); ?>">From Name</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_from_name" ); ?>" name="<?php echo esc_attr( "{$prefix}_from_name" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_from_name", $d['from_name'] ) ); ?>" class="regular-text">
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_from_email" ); ?>">From Email</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_from_email" ); ?>" name="<?php echo esc_attr( "{$prefix}_from_email" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_from_email", $d['from_email'] ) ); ?>" class="regular-text">
+                    <p class="description">Email address or <code>{admin_email}</code>.</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_reply_to" ); ?>">Reply To</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_reply_to" ); ?>" name="<?php echo esc_attr( "{$prefix}_reply_to" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_reply_to", $d['reply_to'] ) ); ?>" class="regular-text">
+                    <p class="description">Email address, <code>{donor_email}</code>, or <code>{admin_email}</code>.</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_cc" ); ?>">CC</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_cc" ); ?>" name="<?php echo esc_attr( "{$prefix}_cc" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_cc", $d['cc'] ) ); ?>" class="large-text">
+                    <p class="description">Comma-separated email addresses (optional).</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_bcc" ); ?>">BCC</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_bcc" ); ?>" name="<?php echo esc_attr( "{$prefix}_bcc" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_bcc", $d['bcc'] ) ); ?>" class="large-text">
+                    <p class="description">Comma-separated email addresses (optional).</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="<?php echo esc_attr( "{$prefix}_subject" ); ?>">Subject</label></th>
+                <td>
+                    <input type="text" id="<?php echo esc_attr( "{$prefix}_subject" ); ?>" name="<?php echo esc_attr( "{$prefix}_subject" ); ?>" value="<?php echo esc_attr( get_option( "{$prefix}_subject", $d['subject'] ) ); ?>" class="large-text">
+                    <p class="description">Supports placeholders like <code>{donor_fname}</code>, <code>{donor_lname}</code>, <code>{donation_amount}</code>.</p>
+                </td>
+            </tr>
+            <tr>
+                <th><label>Message</label></th>
+                <td>
+                    <?php
+                    $editor_id = str_replace( '-', '_', $prefix ) . '_message';
+                    $content   = get_option( "{$prefix}_message", '' );
+                    wp_editor( $content, $editor_id, array(
+                        'textarea_name' => "{$prefix}_message",
+                        'media_buttons' => false,
+                        'textarea_rows' => 15,
+                        'tinymce'       => array(
+                            'toolbar1' => 'formatselect,|,bold,italic,underline,strikethrough,|,bullist,numlist,|,link,unlink,|,undo,redo',
+                            'toolbar2' => '',
+                        ),
+                    ) );
+                    ?>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Placeholder reference -->
+        <div class="yasw-placeholder-guide">
+            <h4>Available Placeholders</h4>
+            <div class="yasw-placeholder-grid">
+                <div class="yasw-placeholder-item"><code>{donor_fname}</code> <span>Donor first name</span></div>
+                <div class="yasw-placeholder-item"><code>{donor_lname}</code> <span>Donor last name</span></div>
+                <div class="yasw-placeholder-item"><code>{donor_email}</code> <span>Donor email address</span></div>
+                <div class="yasw-placeholder-item"><code>{donor_phone}</code> <span>Donor phone number</span></div>
+                <div class="yasw-placeholder-item"><code>{donor_address}</code> <span>Donor street address</span></div>
+                <div class="yasw-placeholder-item"><code>{donor_zip}</code> <span>Donor ZIP code</span></div>
+                <div class="yasw-placeholder-item"><code>{donation_amount}</code> <span>Total amount charged</span></div>
+                <div class="yasw-placeholder-item"><code>{donation_type}</code> <span>Donation type label</span></div>
+                <div class="yasw-placeholder-item"><code>{payment_method}</code> <span>Payment method name</span></div>
+                <div class="yasw-placeholder-item"><code>{transaction_id}</code> <span>Transaction/confirmation ID</span></div>
+                <div class="yasw-placeholder-item"><code>{donation_date}</code> <span>Date of donation</span></div>
+                <div class="yasw-placeholder-item"><code>{donation_message}</code> <span>Donor's message</span></div>
+                <div class="yasw-placeholder-item"><code>{admin_email}</code> <span>WordPress admin email</span></div>
+                <div class="yasw-placeholder-item"><code>{all_fields}</code> <span>Full summary of all donation details</span></div>
+            </div>
         </div>
         <?php
     }
