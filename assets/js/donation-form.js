@@ -157,6 +157,28 @@
             updateSubmitButton();
         });
 
+        // Expiry field auto-format (MM/YY) for OJC and Pledger
+        $('input[name="ojc_expiry"], input[name="pl_expiry"]').on('input', function() {
+            var val = $(this).val().replace(/[^0-9\/]/g, '');
+
+            // Remove any slashes to work with raw digits
+            var digits = val.replace(/\//g, '');
+
+            // If first digit > 1, prepend 0
+            if (digits.length === 1 && digits !== '1' && digits !== '0') {
+                digits = '0' + digits;
+            }
+
+            // Insert slash after 2 digits
+            if (digits.length >= 2) {
+                val = digits.substring(0, 2) + '/' + digits.substring(2, 4);
+            } else {
+                val = digits;
+            }
+
+            $(this).val(val);
+        });
+
         // Installment months
         $('#yasw-months').on('input', updateTotal);
 
